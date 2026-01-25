@@ -4,6 +4,7 @@ import { Text } from 'react-native';
 import { AddReminderButton } from './AddReminderButton';
 import { CandlesLightingSchedule } from './CandlesLightingSchedule';
 import { LinearGradient } from './LinearGradient';
+import { SectionTitle } from './SectionTitle';
 import { Box } from './ui/box';
 import { CandlesIcons } from './ui/CandleIcons';
 import { Divider } from './ui/divider';
@@ -13,6 +14,7 @@ import { WeeklyPortionReadings } from './WeeklyPortionReadings';
 export const NextShabbatCard = () => {
   return (
     <Box className='border-l-jewish-blue-light rounded-lg'>
+      <SectionTitle text='Próximo Shabbat' />
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}

@@ -19,6 +19,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+        },
+
         jewish: {
           background: 'hsl(var(--background))',
           foreground: 'hsl(var(--foreground))',

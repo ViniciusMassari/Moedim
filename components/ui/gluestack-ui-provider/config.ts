@@ -229,6 +229,7 @@ export const config = {
     '--gold': '45 85% 45%',
     '--blue-deep': '220 65% 20%',
     '--blue-royal': '220 60% 30%',
+    '--blue-light': '220 50% 50%',
     '--cream': '45 20% 90%',
     '--olive': '80 20% 25%',
     '--festival-major': '45 90% 50%',
