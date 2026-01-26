@@ -1,14 +1,16 @@
 import { FontAwesome5 } from '@expo/vector-icons';
 import React from 'react';
 import { Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from './LinearGradient';
 import { Box } from './ui/box';
 import { HStack } from './ui/hstack';
 import { VStack } from './ui/vstack';
 
 export const Header = () => {
+  const insets = useSafeAreaInsets();
   return (
-    <View className=''>
+    <View style={{ paddingTop: insets.top }}>
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
