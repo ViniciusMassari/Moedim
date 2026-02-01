@@ -1,3 +1,4 @@
+import { FeastsList } from '@/components/FeastsList';
 import { Header } from '@/components/Header';
 import { NextShabbatCard } from '@/components/NextShabbatCard';
 import { WeeklyPortions } from '@/components/WeeklyPortions';
@@ -13,6 +14,7 @@ export default function TabOneScreen() {
       >
         <NextShabbatCard />
         <WeeklyPortions />
+        <FeastsList />
       </ScrollView>
     </>
   );
