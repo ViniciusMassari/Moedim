@@ -3,7 +3,7 @@ import '@hebcal/locales';
 
 const date = new Date();
 
-// primeiro e último dia do mês atual
+// first and last day of the current month
 const start = new Date(date.getFullYear(), date.getMonth(), 1);
 const end = new Date(new Date().getFullYear(), start.getMonth() + 1, 0);
 
@@ -27,7 +27,6 @@ const monthShabbatotCalendar: CalOptions = {
   addHebrewDates: true,
 };
 
-const startPerf = performance.now();
 export const shabbattot = HebrewCalendar.calendar(
   monthShabbatotCalendar,
 ).filter((ev) => {
