@@ -1,3 +1,4 @@
+import { todayDate } from '@/utils/hebrewCalendarConfig';
 import { FontAwesome5 } from '@expo/vector-icons';
 import React from 'react';
 import { Text, View } from 'react-native';
@@ -9,6 +10,11 @@ import { VStack } from './ui/vstack';
 
 export const Header = () => {
   const insets = useSafeAreaInsets();
+  const todayDateFormatted = todayDate?.render('pt');
+  const todayDateBR = new Intl.DateTimeFormat('pt-BR', {
+    dateStyle: 'medium',
+  }).format(todayDate?.getDate().greg());
+
   return (
     <View style={{ paddingTop: insets.top }}>
       <LinearGradient
@@ -30,10 +36,10 @@ export const Header = () => {
 
           <HStack space='sm' className='items-baseline'>
             <Text className='text-jewish-primary-foreground text-2xl font-semibold font-jakarta'>
-              Elul
+              {todayDateFormatted ?? todayDateFormatted}
             </Text>
             <Text className='text-jewish-primary-foreground  text-sm capitalize opacity-70'>
-              Dezembro de 2025
+              {todayDateBR ?? todayDateBR}
             </Text>
           </HStack>
         </VStack>
