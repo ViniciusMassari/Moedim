@@ -1,5 +1,5 @@
-import { todayDate } from '@/utils/hebrewCalendarConfig';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { formatJewishDate, toJewishDate } from 'jewish-date';
 import React from 'react';
 import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -10,10 +10,12 @@ import { VStack } from './ui/vstack';
 
 export const Header = () => {
   const insets = useSafeAreaInsets();
-  const todayDateFormatted = todayDate?.render('pt');
+  const todayDate = new Date();
+  const jewishDate = toJewishDate(todayDate);
+  const formattedJewishDate = formatJewishDate(jewishDate);
   const todayDateBR = new Intl.DateTimeFormat('pt-BR', {
     dateStyle: 'medium',
-  }).format(todayDate?.getDate().greg());
+  }).format(todayDate);
 
   return (
     <View style={{ paddingTop: insets.top }}>
@@ -36,7 +38,7 @@ export const Header = () => {
 
           <HStack space='sm' className='items-baseline'>
             <Text className='text-jewish-primary-foreground text-2xl font-semibold font-jakarta'>
-              {todayDateFormatted ?? todayDateFormatted}
+              {formattedJewishDate ?? formattedJewishDate}
             </Text>
             <Text className='text-jewish-primary-foreground  text-sm capitalize opacity-70'>
               {todayDateBR ?? todayDateBR}

@@ -35,12 +35,8 @@ export const shabbattot = HebrewCalendar.calendar(
   return (
     category.includes('candles') ||
     category.includes('havdalah') ||
-    category.includes('parashat') ||
-    // including today's date for simplicity purposes
-    ev.getDate().greg().toDateString() === new Date().toDateString()
+    category.includes('parashat')
   );
 });
 
-export const todayDate = shabbattot.find(
-  (ev) => ev.getDate().greg().toDateString() === new Date().toDateString(),
-);
+console.log(shabbattot);
