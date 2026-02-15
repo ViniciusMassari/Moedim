@@ -38,5 +38,3 @@ export const shabbattot = HebrewCalendar.calendar(
     category.includes('parashat')
   );
 });
-
-console.log(shabbattot);
