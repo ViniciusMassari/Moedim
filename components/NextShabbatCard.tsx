@@ -20,7 +20,7 @@ export const NextShabbatCard = () => {
   }).format(nextShabbatInfo?.candleLightingTime ?? new Date());
 
   return (
-    <Box className='border-l-jewish-blue-light rounded-lg'>
+    <Box className='border-l-jewish-blue-light rounded-lg '>
       <SectionTitle text='Próximo Shabbat' />
       <LinearGradient
         start={{ x: 0, y: 0 }}
@@ -32,9 +32,9 @@ export const NextShabbatCard = () => {
           <Box className='bg-jewish-primary-foreground/10 opacity-80 border rounded-lg border-transparent p-1.5'>
             <CandlesIcons color='gold' />
           </Box>
-          <Text className='font-display text-lg opacity-80 text-jewish-primary-foreground'>
+          {/* <Text className='font-display text-lg opacity-80 text-jewish-primary-foreground'>
             שבת וירא
-          </Text>
+          </Text> */}
         </HStack>
         <Text className='font-display font-bold text-2xl text-jewish-primary-foreground pb-2'>
           {nextShabbatInfo?.parashahTitle
@@ -50,7 +50,9 @@ export const NextShabbatCard = () => {
           havdalahTime={nextShabbatInfo?.havdalahTime}
         />
         <Divider className=' text-jewish-primary-foreground/80' />
-        <WeeklyPortionReadings />
+        <WeeklyPortionReadings
+          parashahTitle={nextShabbatInfo?.parashahTitle ?? ''}
+        />
         <AddReminderButton />
       </LinearGradient>
     </Box>

@@ -16,7 +16,6 @@ export const Header = () => {
   const todayDateBR = new Intl.DateTimeFormat('pt-BR', {
     dateStyle: 'medium',
   }).format(todayDate);
-
   return (
     <View style={{ paddingTop: insets.top }}>
       <LinearGradient
