@@ -1,5 +1,14 @@
-import { CalOptions, HebrewCalendar, Location } from '@hebcal/core';
+import { NextShabbat } from '@/types/NextShabbat';
+import {
+  CalOptions,
+  CandleLightingEvent,
+  HavdalahEvent,
+  HebrewCalendar,
+  Location,
+  ParshaEvent,
+} from '@hebcal/core';
 import '@hebcal/locales';
+import { isPast, isSameDay } from 'date-fns';
 
 const date = new Date();
 
@@ -38,3 +47,35 @@ export const shabbattot = HebrewCalendar.calendar(
     category.includes('parashat')
   );
 });
+
+export function nextShabbat() {
+  let candleLighting: CandleLightingEvent | null = null;
+  let shabbat: ParshaEvent | null = null;
+  let havdalah: HavdalahEvent | null = null;
+  for (let i = 0; i < shabbattot.length; i++) {
+    const event = shabbattot[i];
+
+    // if it's a parashat and it's not in the past or it's the same day, we consider it the next shabbat.
+    if (
+      (event.getCategories().includes('parashat') && !isPast(event.greg())) ||
+      (event.getCategories().includes('parashat') &&
+        isSameDay(event.greg(), new Date()))
+    ) {
+      candleLighting = shabbattot[i - 1] as CandleLightingEvent;
+      shabbat = event as ParshaEvent;
+      havdalah = shabbattot[i + 1] as HavdalahEvent;
+    }
+    continue;
+  }
+
+  if (candleLighting && shabbat && havdalah) {
+    const nextShabbat: NextShabbat = {
+      candleLightingTime: candleLighting?.eventTime,
+      parashahTitle: shabbat.parsha[0],
+      havdalahTime: havdalah?.eventTime,
+    };
+    return nextShabbat;
+  }
+
+  return null;
+}

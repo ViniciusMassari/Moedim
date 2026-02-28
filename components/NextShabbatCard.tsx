@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { nextShabbat } from '@/utils/hebrewCalendarConfig';
 import { Text } from 'react-native';
 import { AddReminderButton } from './AddReminderButton';
 import { CandlesLightingSchedule } from './CandlesLightingSchedule';
@@ -12,6 +13,12 @@ import { HStack } from './ui/hstack';
 import { WeeklyPortionReadings } from './WeeklyPortionReadings';
 
 export const NextShabbatCard = () => {
+  const nextShabbatInfo = nextShabbat();
+
+  const nextShabbatDate = new Intl.DateTimeFormat('pt-BR', {
+    dateStyle: 'long',
+  }).format(nextShabbatInfo?.candleLightingTime ?? new Date());
+
   return (
     <Box className='border-l-jewish-blue-light rounded-lg'>
       <SectionTitle text='Próximo Shabbat' />
@@ -30,13 +37,18 @@ export const NextShabbatCard = () => {
           </Text>
         </HStack>
         <Text className='font-display font-bold text-2xl text-jewish-primary-foreground pb-2'>
-          Shabbat Vayera
+          {nextShabbatInfo?.parashahTitle
+            ? `Parashá ${nextShabbatInfo.parashahTitle}`
+            : 'N/A'}
         </Text>
         <Text className='text-base mb-4 capitalize text-jewish-primary-foreground/80'>
-          Sexta-Feira, 23 De Janeiro
+          {nextShabbatDate}
         </Text>
 
-        <CandlesLightingSchedule />
+        <CandlesLightingSchedule
+          candleLightingTime={nextShabbatInfo?.candleLightingTime}
+          havdalahTime={nextShabbatInfo?.havdalahTime}
+        />
         <Divider className=' text-jewish-primary-foreground/80' />
         <WeeklyPortionReadings />
         <AddReminderButton />
