@@ -64,6 +64,7 @@ export function nextShabbat() {
       candleLighting = shabbattot[i - 1] as CandleLightingEvent;
       shabbat = event as ParshaEvent;
       havdalah = shabbattot[i + 1] as HavdalahEvent;
+      break;
     }
     continue;
   }
