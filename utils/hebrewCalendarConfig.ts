@@ -48,6 +48,10 @@ export const shabbattot = HebrewCalendar.calendar(
   );
 });
 
+export const parashiot = shabbattot.filter((ev) =>
+  ev.getCategories().includes('parashat'),
+) as ParshaEvent[];
+
 export function nextShabbat() {
   let candleLighting: CandleLightingEvent | null = null;
   let shabbat: ParshaEvent | null = null;
@@ -79,4 +83,8 @@ export function nextShabbat() {
   }
 
   return null;
+}
+
+export function shabbatotDates(): Date[] | null {
+  return shabbattot.map((ev) => ev.greg());
 }

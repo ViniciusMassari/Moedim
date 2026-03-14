@@ -3,4 +3,5 @@ export interface Portion {
   torah: string;
   prophets: string;
   newTestament: string[];
+  hebrewName: string;
 }
