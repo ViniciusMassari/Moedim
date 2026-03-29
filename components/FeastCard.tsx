@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import { ArrowRight } from 'lucide-react-native';
 import React from 'react';
 import { Text, View } from 'react-native';
@@ -13,16 +15,22 @@ type Icon = {
 
 interface FeastCardProps {
   isMajor?: boolean;
+  feastName: string;
+  feastDate: Date;
 }
 
-export const FeastCard = ({ isMajor = true }: FeastCardProps) => {
+export const FeastCard = ({
+  isMajor = true,
+  feastName,
+  feastDate,
+}: FeastCardProps) => {
   const iconKey: Icon = {
     shavuot: ShofarIcon,
   };
-  // 'border-l-jewish-blue-light' caso seja minor
+  const formattedDate = format(feastDate, 'dd MMM', { locale: ptBR });
   return (
     <Card
-      className={` ${isMajor ? 'border-l-jewish-gold bg-jewish-gold/5' : ' border-l-jewish-blue-light   '}  border-l-4 flex justify-between flex-row items-center `}
+      className={` ${isMajor ? 'border-l-jewish-gold bg-jewish-gold/5' : ' border-l-jewish-blue-light   '}  border-l-4 flex justify-between flex-row items-center my-1`}
     >
       <HStack className='gap-3 '>
         <View
@@ -37,9 +45,9 @@ export const FeastCard = ({ isMajor = true }: FeastCardProps) => {
 
         <Box className='min-w-0 '>
           <Text className='font-display text-xl font-bold truncate'>
-            Pessach
+            {feastName}
           </Text>
-          <Text className='text-sm text-muted-foreground'>15 de abr.</Text>
+          <Text className='text-sm text-muted-foreground'>{formattedDate}</Text>
         </Box>
       </HStack>
       <ArrowRight className='text-muted-foreground' size={18} />
