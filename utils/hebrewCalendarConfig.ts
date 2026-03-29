@@ -35,6 +35,31 @@ function getCalendarOptions(year: number, month: number): CalOptions {
   };
 }
 
+function getFeastsCalendarOptions(year: number): CalOptions {
+  const start = new Date(year, 0, 1);
+  const end = new Date(year, 11, 31);
+
+  return {
+    year,
+    isHebrewYear: false,
+    start,
+    end,
+    location: Location.lookup('Sao Paulo'),
+    sedrot: false,
+    candlelighting: false,
+    yizkor: false,
+    noMinorFast: false,
+    noModern: true,
+    noSpecialShabbat: true,
+    omer: false,
+    noRoshChodesh: false,
+    noHolidays: false,
+    yomKippurKatan: false,
+    molad: false,
+    addHebrewDates: true,
+  };
+}
+
 let currentDate = new Date();
 let year = currentDate.getFullYear();
 let month = currentDate.getMonth();
@@ -116,3 +141,43 @@ export { nextShabbat, parashiot, shabbattot };
 export function shabbatotDates(): Date[] | null {
   return shabbattot.map((ev) => ev.greg());
 }
+
+let currentDateFeasts = new Date();
+let yearFeasts = currentDateFeasts.getFullYear();
+
+let feastsCalendar = getFeastsCalendarOptions(yearFeasts);
+
+let feasts = HebrewCalendar.calendar(feastsCalendar).filter((ev) => {
+  const category = ev.getCategories();
+  const desc = ev.getDesc();
+  const allowedFeasts = [
+    'Erev Pesach',
+    'Erev Shavuot',
+    "Erev Tish'a B'Av",
+    'Erev Rosh Hashana',
+    'Erev Yom Kippur',
+    'Yom Kippur',
+    'Erev Sukkot',
+    'Sukkot VII (Hoshana Raba)',
+    'Shmini Atzeret',
+    'Simchat Torah',
+    'Chanukah: 1 Candle',
+    'Chanukah: 8 Candles',
+    'Erev Purim',
+    'Purim',
+    'Tu BiShvat',
+    'Shushan Purim',
+    'Pesach Sheni',
+    'Lag BaOmer',
+  ];
+  return (
+    ((category.includes('holiday') && category.includes('major')) ||
+      (category.includes('holiday') && category.includes('minor')) ||
+      category.includes('fast') ||
+      category.includes('roshchodesh')) &&
+    !category.includes('shabbat') &&
+    allowedFeasts.some((allowed) => desc.includes(allowed))
+  );
+});
+
+export { feasts };
