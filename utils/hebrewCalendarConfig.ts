@@ -10,49 +10,52 @@ import {
 import '@hebcal/locales';
 import { isPast, isSameDay } from 'date-fns';
 
-const date = new Date();
+function getCalendarOptions(year: number, month: number): CalOptions {
+  const start = new Date(year, month, 1);
+  const end = new Date(year, month + 1, 0);
 
-// first and last day of the current month
-const start = new Date(date.getFullYear(), date.getMonth(), 1);
-const end = new Date(new Date().getFullYear(), start.getMonth() + 1, 0);
+  return {
+    year,
+    isHebrewYear: false,
+    start,
+    end,
+    location: Location.lookup('Sao Paulo'),
+    sedrot: true,
+    candlelighting: true,
+    yizkor: false,
+    noMinorFast: true,
+    noModern: true,
+    noSpecialShabbat: true,
+    omer: false,
+    noRoshChodesh: true,
+    noHolidays: true,
+    yomKippurKatan: false,
+    molad: false,
+    addHebrewDates: true,
+  };
+}
 
-const monthShabbatotCalendar: CalOptions = {
-  year: new Date().getFullYear(),
-  isHebrewYear: false,
-  start,
-  end,
-  location: Location.lookup('Sao Paulo'),
-  sedrot: true,
-  candlelighting: true,
-  yizkor: false,
-  noMinorFast: true,
-  noModern: true,
-  noSpecialShabbat: true,
-  omer: false,
-  noRoshChodesh: true,
-  noHolidays: true,
-  yomKippurKatan: false,
-  molad: false,
-  addHebrewDates: true,
-};
+let currentDate = new Date();
+let year = currentDate.getFullYear();
+let month = currentDate.getMonth();
 
-export const shabbattot = HebrewCalendar.calendar(
-  monthShabbatotCalendar,
-).filter((ev) => {
-  const category = ev.getCategories();
+let monthShabbatotCalendar = getCalendarOptions(year, month);
+let shabbattot = HebrewCalendar.calendar(monthShabbatotCalendar).filter(
+  (ev) => {
+    const category = ev.getCategories();
+    return (
+      category.includes('candles') ||
+      category.includes('havdalah') ||
+      category.includes('parashat')
+    );
+  },
+);
 
-  return (
-    category.includes('candles') ||
-    category.includes('havdalah') ||
-    category.includes('parashat')
-  );
-});
-
-export const parashiot = shabbattot.filter((ev) =>
+let parashiot = shabbattot.filter((ev) =>
   ev.getCategories().includes('parashat'),
 ) as ParshaEvent[];
 
-export function nextShabbat() {
+function nextShabbat() {
   let candleLighting: CandleLightingEvent | null = null;
   let shabbat: ParshaEvent | null = null;
   let havdalah: HavdalahEvent | null = null;
@@ -84,6 +87,31 @@ export function nextShabbat() {
 
   return null;
 }
+
+// Check if nextShabbat returns null, if so, advance to next month up to 3 times
+let attempts = 0;
+while (nextShabbat() === null && attempts < 3) {
+  month++;
+  if (month > 11) {
+    month = 0;
+    year++;
+  }
+  monthShabbatotCalendar = getCalendarOptions(year, month);
+  shabbattot = HebrewCalendar.calendar(monthShabbatotCalendar).filter((ev) => {
+    const category = ev.getCategories();
+    return (
+      category.includes('candles') ||
+      category.includes('havdalah') ||
+      category.includes('parashat')
+    );
+  });
+  parashiot = shabbattot.filter((ev) =>
+    ev.getCategories().includes('parashat'),
+  ) as ParshaEvent[];
+  attempts++;
+}
+
+export { nextShabbat, parashiot, shabbattot };
 
 export function shabbatotDates(): Date[] | null {
   return shabbattot.map((ev) => ev.greg());

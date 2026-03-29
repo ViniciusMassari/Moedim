@@ -21,9 +21,7 @@ export const WeeklyPortions = () => {
 
           return (
             <PortionCard
-              parashahNameHebrew={
-                readings?.hebrewName || 'Nome em hebraico não encontrado'
-              }
+              parashahNameHebrew={readings?.hebrewName || ''}
               key={index + parashah.parsha[0]}
               parashaName={parashah.parsha[0]}
               date={parashah.greg()}
