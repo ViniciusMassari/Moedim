@@ -6,8 +6,6 @@ import { FeastCard } from './FeastCard';
 import { SectionTitle } from './SectionTitle';
 
 export const FeastsList = () => {
-  console.log();
-
   return (
     <View className='mt-4'>
       <SectionTitle text='Festas Maiores' />

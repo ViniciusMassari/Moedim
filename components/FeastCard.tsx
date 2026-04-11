@@ -3,7 +3,15 @@ import { ptBR } from 'date-fns/locale';
 import { ArrowRight } from 'lucide-react-native';
 import React from 'react';
 import { Text, View } from 'react-native';
+import { CrownIcon } from './CrownIcon';
+import { FireIcon } from './FireIcon';
+import { HanukiahIcon } from './HanukiahIcon';
+import { LambIcon } from './LambIcon';
 import { ShofarIcon } from './ShofarIcon';
+import { TempleIcon } from './TempleIcon';
+import { TentIcon } from './TentIcon';
+import { TorahScrollIcon } from './TorahScrollIcon';
+import { TreeIcon } from './TreeIcon';
 import { Box } from './ui/box';
 import { Card } from './ui/card';
 import { HStack } from './ui/hstack';
@@ -26,7 +34,27 @@ export const FeastCard = ({
 }: FeastCardProps) => {
   const iconKey: Icon = {
     shavuot: ShofarIcon,
+    pesach: LambIcon,
+    sukot: TentIcon,
+    'shmini atzeret': TentIcon,
+    'rosh hashana': ShofarIcon,
+    'yom kipur': ShofarIcon,
+    chanucá: HanukiahIcon,
+    torá: TorahScrollIcon,
+    "tishá b'av": TempleIcon,
+    purim: CrownIcon,
+    'tu bishvat': TreeIcon,
+    'lag baoomer': FireIcon,
   };
+
+  const getIconForFeast = (name: string) => {
+    const normalizedName = name.toLowerCase();
+    const foundKey = Object.keys(iconKey).find((key) =>
+      normalizedName.includes(key),
+    );
+    return foundKey ? iconKey[foundKey] : TorahScrollIcon;
+  };
+
   const formattedDate = format(feastDate, 'dd MMM', { locale: ptBR });
   return (
     <Card
@@ -37,8 +65,8 @@ export const FeastCard = ({
           className={`w-12 h-12 rounded-lg ${isMajor ? 'bg-jewish-gold/10' : 'bg-jewish-blue-sky'}  items-center justify-center self-start`}
         >
           <Icon
-            as={iconKey['shavuot']}
-            className={`${isMajor ? 'color-jewish-gold-dark' : 'color-jewish-blue-deep'}`}
+            as={getIconForFeast(feastName)}
+            className={`${isMajor ? 'color-jewish-gold-dark' : 'color-jewish-blue-deep'} `}
             size={'xl'}
           />
         </View>
